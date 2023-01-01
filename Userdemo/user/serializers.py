@@ -41,7 +41,7 @@ class RegisterSerializer(serializers.ModelSerializer):
         user.save()
 
         wallet = Wallet.objects.create(
-            uid=username
+            uid=self.validated_data['username']
         )
         wallet.save()
         return user
@@ -56,3 +56,16 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
         token['username'] = user.username
         return token
 
+class UpdateWalletwid(serializers.ModelSerializer):
+    wid = serializers.CharField(validators=[])
+
+    class Meta:
+        model = Wallet
+        fields = ('wid', 'amount')
+
+class UpdateWalletuid(serializers.ModelSerializer):
+    uid = serializers.CharField(validators=[])
+
+    class Meta:
+        model = Wallet
+        fields = ('uid', 'amount')
