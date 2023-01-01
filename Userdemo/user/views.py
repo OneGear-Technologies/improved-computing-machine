@@ -6,11 +6,15 @@ from .serializers import (
     RegisterSerializer,
     MyTokenObtainPairSerializer,
     UpdateWalletwid,
-    UpdateWalletuid
+    UpdateWalletuid,
+    GetWalletuid,
+    GetWalletwid
 )
 from rest_framework import generics, status
 from rest_framework.views import APIView
 from rest_framework_simplejwt.views import TokenObtainPairView
+import json
+
 
 class RegisterView(generics.CreateAPIView):
     queryset = User.objects.all()
@@ -69,5 +73,45 @@ class Updateuid(APIView):
             wallet.amount = wallet.amount + amount
             wallet.save(update_fields=['amount'])
             return Response(UpdateWalletwid(wallet).data, status=status.HTTP_200_OK)
+        
+        return Response({'msg':'Invalid request.'}, status=status.HTTP_400_BAD_REQUEST)
+
+
+class Getwid(APIView):
+    serializer_class = GetWalletwid
+
+    def post(self, request, format=None):
+        if not self.request.session.exists(self.request.session.session_key):
+            self.request.session.create()
+        
+        serializer = self.serializer_class(data=request.data)
+        if serializer.is_valid():
+            wid = serializer.data.get('wid')
+            queryset = Wallet.objects.get(wid=wid)
+            if queryset.DoesNotExist:
+                return Response({'msg': 'wallet doesnot exists'}, status=status.HTTP_404_NOT_FOUND)
+
+            return Response(GetWalletwid(queryset).data, status=status.HTTP_200_OK)
+        
+        return Response({'msg':'Invalid request.'}, status=status.HTTP_400_BAD_REQUEST)
+
+
+
+class Getuid(APIView):
+    serializer_class = GetWalletuid
+
+    def post(self, request, format=None):
+        if not self.request.session.exists(self.request.session.session_key):
+            self.request.session.create()
+        
+        serializer = self.serializer_class(data=request.data)
+        if serializer.is_valid():
+            uid = serializer.data.get('uid')
+            queryset = Wallet.objects.get(uid=uid)
+            
+            if not queryset.DoesNotExist():
+                return Response({'msg': 'user doesnot exists'}, status=status.HTTP_404_NOT_FOUND)
+
+            return Response(GetWalletuid(queryset).data, status=status.HTTP_200_OK)
         
         return Response({'msg':'Invalid request.'}, status=status.HTTP_400_BAD_REQUEST)

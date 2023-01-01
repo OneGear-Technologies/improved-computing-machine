@@ -64,8 +64,37 @@ class UpdateWalletwid(serializers.ModelSerializer):
         fields = ('wid', 'amount')
 
 class UpdateWalletuid(serializers.ModelSerializer):
-    uid = serializers.CharField(validators=[])
+    uid = serializers.IntegerField(validators=[])
 
     class Meta:
         model = Wallet
         fields = ('uid', 'amount')
+
+class UpdateWalletwid(serializers.ModelSerializer):
+    wid = serializers.CharField(validators=[])
+
+    class Meta:
+        model = Wallet
+        fields = ('wid', 'amount')
+
+class UpdateWalletuid(serializers.ModelSerializer):
+    uid = serializers.IntegerField(validators=[])
+
+    class Meta:
+        model = Wallet
+        fields = ('uid', 'amount')
+
+
+class GetWalletwid(serializers.ModelSerializer):
+    wid = serializers.CharField(validators=[])
+
+    class Meta:
+        model = Wallet
+        fields = '__all__'
+
+class GetWalletuid(serializers.ModelSerializer):
+    uid = serializers.IntegerField(validators=[])
+
+    class Meta:
+        model = Wallet
+        fields = '__all__'
