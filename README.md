@@ -2,9 +2,10 @@
 
 ## Links
 
-* `/login` - to login
-* `/logout` - to logout
-* `/register` - to register
-* `/wallet` - List of wallets
-* `/wallet/create` - To create wallets(uid from request.user)
-* `/wallet/update` - To update wallet(wid)
+* `/` - to obtain login token
+* `login/refresh/` - to refresh login token
+* `register/` - to Register user and creates wallet for each user
+* `/update-wid` - to update wallet value based on wid
+* `/update-uid` - to update wallet value based on uid
+* `/get-uid` - To get wallet values based on uid
+* `/get-wid` - To get wallet values based on wid
