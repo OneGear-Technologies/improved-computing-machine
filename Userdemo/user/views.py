@@ -73,7 +73,6 @@ class Updateuid(APIView):
             wallet.amount = wallet.amount + amount
             wallet.save(update_fields=['amount'])
             return Response(UpdateWalletuid(wallet).data, status=status.HTTP_200_OK)
-        print(serializer.is_valid()) 
         return Response({'msg':'Invalid request.'}, status=status.HTTP_400_BAD_REQUEST)
     def get(self, request, format=None):
         return Response({'msg': 'this is a get request'}, status=status.HTTP_408_REQUEST_TIMEOUT)
