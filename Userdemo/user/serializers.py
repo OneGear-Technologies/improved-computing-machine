@@ -82,7 +82,11 @@ class UpdateWalletuid(serializers.ModelSerializer):
 
     class Meta:
         model = Wallet
-        fields = ('uid', 'amount')
+        fields = ('uid', 'amount',)
+        extra_kwargs = {
+            'uid': {'required': False},
+            'amount': {'required': False}
+        }
 
 
 class GetWalletwid(serializers.ModelSerializer):
