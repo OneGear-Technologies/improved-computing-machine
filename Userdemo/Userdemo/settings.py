@@ -39,7 +39,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'user.apps.UserConfig',
-    'wallet.apps.WalletConfig',
     'crispy_forms'
 ]
 

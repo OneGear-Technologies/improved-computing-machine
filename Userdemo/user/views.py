@@ -89,11 +89,12 @@ class Getwid(APIView):
         if serializer.is_valid():
             wid = serializer.data.get('wid')
             queryset = Wallet.objects.get(wid=wid)
-            if queryset.DoesNotExist:
-                return Response({'msg': 'wallet doesnot exists'}, status=status.HTTP_404_NOT_FOUND)
 
-            return Response(GetWalletwid(queryset).data, status=status.HTTP_200_OK)
-        
+            try:
+                return Response(GetWalletwid(queryset).data, status=status.HTTP_200_OK)
+            except Exception as e:
+                if queryset.DoesNotExist:
+                    return Response({'msg': 'wallet doesnot exists'}, status=status.HTTP_404_NOT_FOUND)
         return Response({'msg':'Invalid request.'}, status=status.HTTP_400_BAD_REQUEST)
 
 
