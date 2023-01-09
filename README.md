@@ -9,3 +9,4 @@
 * `/update-uid` - to update wallet value based on uid
 * `/get-uid` - To get wallet values based on uid
 * `/get-wid` - To get wallet values based on wid
+* `/get-name` - To get first_name & last_name of the user values based on uid

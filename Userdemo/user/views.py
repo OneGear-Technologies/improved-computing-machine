@@ -8,7 +8,8 @@ from .serializers import (
     UpdateWalletwid,
     UpdateWalletuid,
     GetWalletuid,
-    GetWalletwid
+    GetWalletwid,
+    GetName
 )
 from rest_framework import generics, status
 from rest_framework.views import APIView
@@ -115,5 +116,23 @@ class Getuid(APIView):
                 return Response({'msg': 'user doesnot exists'}, status=status.HTTP_404_NOT_FOUND)
 
             return Response(GetWalletuid(queryset).data, status=status.HTTP_200_OK)
+        
+        return Response({'msg':'Invalid request.'}, status=status.HTTP_400_BAD_REQUEST)
+
+class GetNameView(APIView):
+    serializer_class = GetName
+
+    def post(self, request, format=None):
+        if not self.request.session.exists(self.request.session.session_key):
+            self.request.session.create()
+        
+        serializer = self.serializer_class(data=request.data)
+        if serializer.is_valid():
+            uid = serializer.data.get('uid')
+            queryset = Wallet.objects.get(uid=uid)
+            
+            if not queryset.DoesNotExist():
+                return Response({'msg': 'user doesnot exists'}, status=status.HTTP_404_NOT_FOUND)
+            return Response(GetName(queryset).data, status=status.HTTP_200_OK)
         
         return Response({'msg':'Invalid request.'}, status=status.HTTP_400_BAD_REQUEST)

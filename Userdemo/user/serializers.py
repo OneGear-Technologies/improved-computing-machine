@@ -41,7 +41,9 @@ class RegisterSerializer(serializers.ModelSerializer):
         user.save()
 
         wallet = Wallet.objects.create(
-            uid=self.validated_data['username']
+            uid=self.validated_data['username'],
+            first_name = self.validated_data['first_name'],
+            last_name = self.validated_data['last_name'],
         )
         wallet.save()
         return user
@@ -54,7 +56,12 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
 
         # Add custom claims
         token['username'] = user.username
+        # firstname = user.first_name
+        # lastname = user.lastname
+        print(type(token))
         return token
+    
+
 
 class UpdateWalletwid(serializers.ModelSerializer):
     wid = serializers.CharField(validators=[])
@@ -102,3 +109,10 @@ class GetWalletuid(serializers.ModelSerializer):
     class Meta:
         model = Wallet
         fields = '__all__'
+
+class GetName(serializers.ModelSerializer):
+    uid = serializers.IntegerField(validators=[])
+
+    class Meta:
+        model = Wallet
+        fields = ('uid', 'first_name', 'last_name',)

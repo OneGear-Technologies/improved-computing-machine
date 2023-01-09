@@ -4,7 +4,8 @@ from .views import (RegisterView,
     Updatewid,
     Updateuid,
     Getuid,
-    Getwid
+    Getwid,
+    GetNameView
 )
 from rest_framework_simplejwt.views import TokenRefreshView
 
@@ -16,4 +17,5 @@ urlpatterns = [
     path('update-uid/', Updateuid.as_view()),
     path('get-wid/', Getwid.as_view()),
     path('get-uid/', Getuid.as_view()),
+    path('get-name/', GetNameView.as_view()),
 ]
