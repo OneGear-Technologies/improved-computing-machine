@@ -112,9 +112,10 @@ class Getuid(APIView):
             uid = serializer.data.get('uid')
             queryset = Wallet.objects.get(uid=uid)
             
-            if not queryset.DoesNotExist():
-                return Response({'msg': 'user doesnot exists'}, status=status.HTTP_404_NOT_FOUND)
-
+            try:
+                queryset = Wallet.objects.get(uid=uid)
+            except Wallet.DoesNotExist:
+                return Response({'msg':'uid does not exists'}, status=status.HTTP_404_NOT_FOUND)
             return Response(GetWalletuid(queryset).data, status=status.HTTP_200_OK)
         
         return Response({'msg':'Invalid request.'}, status=status.HTTP_400_BAD_REQUEST)

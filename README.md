@@ -10,3 +10,9 @@
 * `/get-uid` - To get wallet values based on uid
 * `/get-wid` - To get wallet values based on wid
 * `/get-name` - To get first_name & last_name of the user values based on uid
+
+## Station endpoints
+
+* `/` - Lists the existing stations and there status
+* `/lock` - Locks the cid with user input
+* `/unlock` - Unlocks the cid with user input
