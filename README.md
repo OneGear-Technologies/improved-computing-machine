@@ -14,5 +14,4 @@
 ## Station endpoints
 
 * `/` - Lists the existing stations and there status
-* `/lock` - Locks the cid with user input
-* `/unlock` - Unlocks the cid with user input
+* `/lock` - Locks the cid with user input and updates the status but stays on the page loading till the lock is unlocked(1 minute) but the server can be access from different instances meanwhile
