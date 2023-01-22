@@ -6,6 +6,7 @@ class StatProfile(models.Model):
     #user = models.ForeignKey('auth.User',on_delete = models.SET_NULL,null=True,blank=True)
 
     cid = models.IntegerField(unique=True)
+    uid = models.IntegerField(default=0)
     charge_stat = models.BooleanField(default=False)
 
     def __str__(self) -> str:
