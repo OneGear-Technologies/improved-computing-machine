@@ -36,7 +36,7 @@ class LockStat(APIView):
     def unlock(self, stat,cid):
         stat.user = None
         stat.charge_stat = False
-        stat.save(update_fields=['user','charge_stat'])
+        stat.save(update_fields=['uid','charge_stat'])
         print(f'{cid} is available')
 
     def post(self, request, format=None):
@@ -46,8 +46,8 @@ class LockStat(APIView):
         serializer = self.serializer_class(data=request.data)
         if serializer.is_valid():
             cid = serializer.data.get('cid')
-            uid = serializer.data.get('user')
-            user = get_object_or_404(User, id=uid)
+            uid = serializer.data.get('uid')
+            user = get_object_or_404(User, username=uid)
             queryset = StatProfile.objects.filter(cid=cid)
             if not queryset.exists():
                 return Response({'msg':'cid does not exists'}, status=status.HTTP_404_NOT_FOUND)
@@ -55,7 +55,7 @@ class LockStat(APIView):
             stat = queryset[0]
             stat.user = user
             stat.charge_stat = True
-            stat.save(update_fields=['user','charge_stat'])
+            stat.save(update_fields=['uid','charge_stat'])
             print(f"{cid} is being aquired")
             sleep(1*60)
             self.unlock(stat,cid)
