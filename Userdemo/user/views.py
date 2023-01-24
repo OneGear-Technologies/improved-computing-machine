@@ -81,6 +81,7 @@ class Updateuid(APIView):
 
 class Getwid(APIView):
     serializer_class = GetWalletwid
+    lookup_url_kwarg = 'wid'
 
     def post(self, request, format=None):
         if not self.request.session.exists(self.request.session.session_key):
@@ -98,6 +99,19 @@ class Getwid(APIView):
                     return Response({'msg': 'wallet doesnot exists'}, status=status.HTTP_404_NOT_FOUND)
         return Response({'msg':'Invalid request.'}, status=status.HTTP_400_BAD_REQUEST)
 
+    def get(self,request, format=None):
+        if not self.request.session.exists(self.request.session.session_key):
+            self.request.session.create()
+        wid = request.data.get(self.lookup_url_kwarg)
+        if wid != None:
+            queryset = Wallet.objects.filter(wid=wid)
+
+            try:
+                return Response(GetWalletwid(queryset).data, status=status.HTTP_200_OK)
+            except Exception as e:
+                if queryset.DoesNotExist:
+                    return Response({'msg': 'wallet doesnot exists'}, status=status.HTTP_404_NOT_FOUND)
+        return Response({'msg':'Invalid request.'}, status=status.HTTP_400_BAD_REQUEST)  
 
 
 class Getuid(APIView):

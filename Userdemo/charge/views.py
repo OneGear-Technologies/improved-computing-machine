@@ -33,6 +33,7 @@ class PollStat(APIView):
 
 class LockStat(APIView):
     serializer_class = GetStatus
+    lookup_url_kwarg = 'cid'
     def unlock(self, stat,cid):
         stat.user = None
         stat.charge_stat = False
@@ -51,9 +52,13 @@ class LockStat(APIView):
             queryset = StatProfile.objects.filter(cid=cid)
             if not queryset.exists():
                 return Response({'msg':'cid does not exists'}, status=status.HTTP_404_NOT_FOUND)
-
+            
             stat = queryset[0]
             stat.user = user
+            if stat.charge_stat == True:
+                return Response({'msg': 'The cid is already active'}, status=status.HTTP_400_BAD_REQUEST)
+
+
             stat.charge_stat = True
             stat.save(update_fields=['user','charge_stat'])
             print(f"{cid} is being aquired")
@@ -63,32 +68,3 @@ class LockStat(APIView):
         
         return Response({'msg': 'Invalid Request'}, status=status.HTTP_400_BAD_REQUEST)
 
-
-# class UnlockStat(APIView):
-#     serializer_class = GetStatus
-
-#     def post(self, request, format=None):
-#         if not self.request.session.exists(self.request.session.session_key):
-#             self.request.session.create()
-        
-#         serializer = self.serializer_class(data=request.data)
-#         if serializer.is_valid():
-#             cid = serializer.data.get('cid')
-#             uid = serializer.data.get('user')
-#             try:
-#                 user = get_object_or_404(User, id=uid)
-#             except User.DoesNotExist:
-#                 return Response({'msg': 'User does not exists'}, status=status.HTTP_404_NOT_FOUND)
-#             queryset = StatProfile.objects.filter(cid=cid)
-#             if not queryset.exists():
-#                 return Response({'msg':'cid does not exists'}, status=status.HTTP_404_NOT_FOUND)
-
-#             stat = queryset[0]
-#             if stat.user != user:
-#                 return Response({"msg": "Unauthorized Access"}, status=status.HTTP_401_UNAUTHORIZED)
-#             stat.user = None
-#             stat.charge_stat = False
-#             stat.save(update_fields=['user','charge_stat'])
-#             return Response(GetStatus(stat).data, status=status.HTTP_200_OK)
-        
-#         return Response({'msg': 'Invalid Request'}, status=status.HTTP_400_BAD_REQUEST)

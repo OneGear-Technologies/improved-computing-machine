@@ -15,3 +15,4 @@
 
 * `charge/` - Lists the existing stations and there status
 * `charge/lock` - Locks the cid with user input and updates the status but stays on the page loading till the lock is unlocked(1 minute) but the server can be access from different instances meanwhile
+* `charge/get-stat` - gives the status of the charging station using the cid.
