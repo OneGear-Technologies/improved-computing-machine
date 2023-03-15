@@ -7,12 +7,13 @@ class ViewSerializer(serializers.ModelSerializer):
         fields = ('cid','charge_stat')
 
 class GetStatus(serializers.ModelSerializer):
-    cid = serializers.IntegerField(validators=[])
-    uid = serializers.IntegerField(validators=[])
+    cid = serializers.CharField(validators=[])
 
     class Meta:
         model = StatProfile
         fields = ('cid','charge_stat', 'uid')
 
-
-
+class CreateStat(serializers.ModelSerializer):
+    class Meta:
+        model = StatProfile
+        fields = ('loc', 'op')
