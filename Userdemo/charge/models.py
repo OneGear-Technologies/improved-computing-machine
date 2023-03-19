@@ -18,7 +18,7 @@ class StatProfile(models.Model):
     cid = models.CharField(max_length=8, default=generate_code, unique=True)
     uid = models.IntegerField(default=0)
     charge_stat = models.BooleanField(default=False)
-    created_at = models.DateTimeField(blank=True, auto_now_add=True)
+    created_at = models.DateTimeField(auto_now_add=True)
     op = models.CharField(max_length=100, default='')
     loc = models.CharField(max_length=100, default='')
 

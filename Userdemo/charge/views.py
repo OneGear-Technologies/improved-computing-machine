@@ -86,5 +86,5 @@ class CreateStat(APIView):
 
             code = stat.cid
 
-            return Response({'msg':'Station profile is created', 'cid':code}, status=status.HTTP_200_OK)
+            return Response({'msg':'Station profile is created', 'cid':code, 'created_at':stat.created_at}, status=status.HTTP_200_OK)
         return Response({'msg': 'Bad Request.'}, status=status.HTTP_400_BAD_REQUEST)

@@ -3,4 +3,7 @@ from .models import StatProfile
 
 # Register your models here.
 
-admin.site.register(StatProfile)
+
+@admin.register(StatProfile)
+class StatProfileAdmin(admin.ModelAdmin):
+    readonly_fields = ('created_at', )
